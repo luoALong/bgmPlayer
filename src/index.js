@@ -177,11 +177,12 @@ export default class BgmPlayer extends Emitter {
       if (is.promise(res)) res.catch(() => {});
     } catch {};
 
-    const _play = () => {
-      this.play();
-      window.removeEventListener('click', _play);
+    window.addEventListener('click', this.play);
+    const destory = () => {
+      window.removeEventListener('click', this.play);
+      this.player.removeEventListener('play', destory);
     }
-    window.addEventListener('click', _play);
+    this.player.addEventListener('play', destory);
   }
 
   _getAttributeValue(field) {
